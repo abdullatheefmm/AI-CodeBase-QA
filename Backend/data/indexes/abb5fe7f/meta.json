@@ -1,0 +1,423 @@
+{
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "dim": 384,
+  "chunks": [
+    {
+      "file_path": "app_test.py",
+      "start_line": 25,
+      "end_line": 29,
+      "text": "def check_request():\n    if request.endpoint in ['login', 'register', 'static', 'favicon', 'favicon.ico']:\n        return None\n    if 'loggedin' not in session:\n        return redirect(url_for('login'))",
+      "embed_text": "def check_request\n\ndef check_request():\n    if request.endpoint in ['login', 'register', 'static', 'favicon', 'favicon.ico']:\n        return None\n    if 'loggedin' not in session:\n        return redirect(url_for('login'))",
+      "symbol_name": "check_request",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "re",
+        "MySQLdb.cursors",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "app_test.py",
+      "start_line": 33,
+      "end_line": 48,
+      "text": "def login():\n    # Output message if something goes wrong...\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        username = request.form['username']\n        password = request.form['password']\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        account = cursor.fetchone()\n        if account:\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            return redirect(url_for('home'))\n        else:\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html', title=\"Login\")",
+      "embed_text": "def login\n\ndef login():\n    # Output message if something goes wrong...\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        username = request.form['username']\n        password = request.form['password']\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        account = cursor.fetchone()\n        if account:\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            return redirect(url_for('home'))\n        else:\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html', title=\"Login\")",
+      "symbol_name": "login",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "re",
+        "MySQLdb.cursors",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "app_test.py",
+      "start_line": 52,
+      "end_line": 75,
+      "text": "def register():\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute(\"SELECT * FROM accounts WHERE username LIKE %s\", [username])\n        account = cursor.fetchone()\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n    elif request.method == 'POST':\n        flash(\"Please fill out the form!\", \"danger\")\n    return render_template('auth/register.html', title=\"Register\")",
+      "embed_text": "def register\n\ndef register():\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute(\"SELECT * FROM accounts WHERE username LIKE %s\", [username])\n        account = cursor.fetchone()\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n    elif request.method == 'POST':\n        flash(\"Please fill out the form!\", \"danger\")\n    return render_template('auth/register.html', title=\"Register\")",
+      "symbol_name": "register",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "re",
+        "MySQLdb.cursors",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "app_test.py",
+      "start_line": 79,
+      "end_line": 82,
+      "text": "def home():\n    if 'loggedin' in session:\n        return render_template('home/home.html', username=session['username'], title=\"Home\")\n    return redirect(url_for('login'))",
+      "embed_text": "def home\n\ndef home():\n    if 'loggedin' in session:\n        return render_template('home/home.html', username=session['username'], title=\"Home\")\n    return redirect(url_for('login'))",
+      "symbol_name": "home",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "re",
+        "MySQLdb.cursors",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "app_test.py",
+      "start_line": 86,
+      "end_line": 89,
+      "text": "def profile():\n    if 'loggedin' in session:\n        return render_template('auth/profile.html', username=session['username'], title=\"Profile\")\n    return redirect(url_for('login'))",
+      "embed_text": "def profile\n\ndef profile():\n    if 'loggedin' in session:\n        return render_template('auth/profile.html', username=session['username'], title=\"Profile\")\n    return redirect(url_for('login'))",
+      "symbol_name": "profile",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "re",
+        "MySQLdb.cursors",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 33,
+      "end_line": 56,
+      "text": "def login():\n# Output message if something goes wrong...\n    # Check if \"username\" and \"password\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        # Fetch one record and return result\n        account = cursor.fetchone()\n                # If account exists in accounts table in out database\n        if account:\n            # Create session data, we can access this data in other routes\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            # Redirect to home page\n            return redirect(url_for('home'))\n        else:\n            # Account doesnt exist or username/password incorrect\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html',title=\"Login\")",
+      "embed_text": "def login\n\ndef login():\n# Output message if something goes wrong...\n    # Check if \"username\" and \"password\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        # Fetch one record and return result\n        account = cursor.fetchone()\n                # If account exists in accounts table in out database\n        if account:\n            # Create session data, we can access this data in other routes\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            # Redirect to home page\n            return redirect(url_for('home'))\n        else:\n            # Account doesnt exist or username/password incorrect\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html',title=\"Login\")",
+      "symbol_name": "login",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 62,
+      "end_line": 95,
+      "text": "def register():\n    # Check if \"username\", \"password\" and \"email\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n                # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        # cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))\n        cursor.execute( \"SELECT * FROM accounts WHERE username LIKE %s\", [username] )\n        account = cursor.fetchone()\n        # If account exists show error and validation checks\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n        # Account doesnt exists and the form data is valid, now insert new account into accounts table\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username,email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n\n    elif request.method == 'POST':\n        # Form is empty... (no POST data)\n                # Form is empty... (no POST data)\n        flash(\"Please fill out the form!\", \"danger\")\n    # Show registration form with message (if any)\n    return render_template('auth/register.html',title=\"Register\")",
+      "embed_text": "def register\n\ndef register():\n    # Check if \"username\", \"password\" and \"email\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n                # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        # cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))\n        cursor.execute( \"SELECT * FROM accounts WHERE username LIKE %s\", [username] )\n        account = cursor.fetchone()\n        # If account exists show error and validation checks\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n        # Account doesnt exists and the form data is valid, now insert new account into accounts table\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username,email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n\n    elif request.method == 'POST':\n        # Form is empty... (no POST data)\n                # Form is empty... (no POST data)\n        flash(\"Please fill out the form!\", \"danger\")\n    # Show registration form with message (if any)\n    return render_template('auth/register.html',title=\"Register\")",
+      "symbol_name": "register",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 101,
+      "end_line": 107,
+      "text": "def home():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('home/home.html', username=session['username'],title=\"Home\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))",
+      "embed_text": "def home\n\ndef home():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('home/home.html', username=session['username'],title=\"Home\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))",
+      "symbol_name": "home",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 111,
+      "end_line": 117,
+      "text": "def profile():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('auth/profile.html', username=session['username'],title=\"Profile\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))",
+      "embed_text": "def profile\n\ndef profile():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('auth/profile.html', username=session['username'],title=\"Profile\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))",
+      "symbol_name": "profile",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 136,
+      "end_line": 159,
+      "text": "def login():\n# Output message if something goes wrong...\n    # Check if \"username\" and \"password\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        # Fetch one record and return result\n        account = cursor.fetchone()\n                # If account exists in accounts table in out database\n        if account:\n            # Create session data, we can access this data in other routes\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            # Redirect to home page\n            return redirect(url_for('home'))\n        else:\n            # Account doesnt exist or username/password incorrect\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html',title=\"Login\")",
+      "embed_text": "def login\n\ndef login():\n# Output message if something goes wrong...\n    # Check if \"username\" and \"password\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))\n        # Fetch one record and return result\n        account = cursor.fetchone()\n                # If account exists in accounts table in out database\n        if account:\n            # Create session data, we can access this data in other routes\n            session['loggedin'] = True\n            session['id'] = account['id']\n            session['username'] = account['username']\n            # Redirect to home page\n            return redirect(url_for('home'))\n        else:\n            # Account doesnt exist or username/password incorrect\n            flash(\"Incorrect username/password!\", \"danger\")\n    return render_template('auth/login.html',title=\"Login\")",
+      "symbol_name": "login",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 165,
+      "end_line": 197,
+      "text": "def register():\n    # Check if \"username\", \"password\" and \"email\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n                # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        # cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))\n        cursor.execute( \"SELECT * FROM accounts WHERE username LIKE %s\", [username] )\n        account = cursor.fetchone()\n        # If account exists show error and validation checks\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n        # Account doesnt exists and the form data is valid, now insert new account into accounts table\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username,email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n\n    elif request.method == 'POST':\n        # Form is empty... (no POST data)\n        flash(\"Please fill out the form!\", \"danger\")\n    # Show registration form with message (if any)\n    return render_template('auth/register.html',title=\"Register\")",
+      "embed_text": "def register\n\ndef register():\n    # Check if \"username\", \"password\" and \"email\" POST requests exist (user submitted form)\n    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:\n        # Create variables for easy access\n        username = request.form['username']\n        password = request.form['password']\n        email = request.form['email']\n                # Check if account exists using MySQL\n        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)\n        # cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))\n        cursor.execute( \"SELECT * FROM accounts WHERE username LIKE %s\", [username] )\n        account = cursor.fetchone()\n        # If account exists show error and validation checks\n        if account:\n            flash(\"Account already exists!\", \"danger\")\n        elif not re.match(r'[^@]+@[^@]+\\.[^@]+', email):\n            flash(\"Invalid email address!\", \"danger\")\n        elif not re.match(r'[A-Za-z0-9]+', username):\n            flash(\"Username must contain only characters and numbers!\", \"danger\")\n        elif not username or not password or not email:\n            flash(\"Incorrect username/password!\", \"danger\")\n        else:\n        # Account doesnt exists and the form data is valid, now insert new account into accounts table\n            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username,email, password))\n            mysql.connection.commit()\n            flash(\"You have successfully registered!\", \"success\")\n            return redirect(url_for('login'))\n\n    elif request.method == 'POST':\n        # Form is empty... (no POST data)\n        flash(\"Please fill out the form!\", \"danger\")\n    # Show registration form with message (if any)\n    return render_template('auth/register.html',title=\"Register\")",
+      "symbol_name": "register",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 203,
+      "end_line": 209,
+      "text": "def home():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('home/home.html', username=session['username'],title=\"Home\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))    ",
+      "embed_text": "def home\n\ndef home():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('home/home.html', username=session['username'],title=\"Home\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))    ",
+      "symbol_name": "home",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "main.py",
+      "start_line": 213,
+      "end_line": 219,
+      "text": "def profile():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('auth/profile.html', username=session['username'],title=\"Profile\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))  ",
+      "embed_text": "def profile\n\ndef profile():\n    # Check if user is loggedin\n    if 'loggedin' in session:\n        # User is loggedin show them the home page\n        return render_template('auth/profile.html', username=session['username'],title=\"Profile\")\n    # User is not loggedin redirect to login page\n    return redirect(url_for('login'))  ",
+      "symbol_name": "profile",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "flask_mysqldb",
+        "MySQLdb.cursors",
+        "os",
+        "re",
+        "dotenv",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 6,
+      "end_line": 57,
+      "text": "class FlaskAppTestCase(unittest.TestCase):\n    def setUp(self):\n        self.app = app.test_client()\n        self.app.testing = True\n\n    def test_login(self):\n        with self.app as client:\n            # Perform a POST request to the login endpoint with valid credentials\n            response = client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure session variables are set correctly\n            with client.session_transaction() as sess:\n                self.assertTrue(sess['loggedin'])\n                self.assertEqual(sess['username'], 'testuser')\n\n    def test_register(self):\n        with self.app as client:\n            # Perform a POST request to the registration endpoint with valid form data\n            response = client.post('/pythonlogin/register', data=dict(username='newuser', password='newpassword', email='test@example.com'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure account was successfully registered\n            # You can check the database or perform a login request to verify the registration\n\n    def test_home(self):\n        with self.app as client:\n            # Perform a GET request to the home endpoint without logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the home endpoint after logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Home Page', response.data)  # expect 'Home Page' to be in the response content\n\n    def test_profile(self):\n        with self.app as client:\n            # Perform a GET request to the profile endpoint without logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the profile endpoint after logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Profile Page', response.data)  # expect 'Profile Page' to be in the response content",
+      "embed_text": "class FlaskAppTestCase\n\nclass FlaskAppTestCase(unittest.TestCase):\n    def setUp(self):\n        self.app = app.test_client()\n        self.app.testing = True\n\n    def test_login(self):\n        with self.app as client:\n            # Perform a POST request to the login endpoint with valid credentials\n            response = client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure session variables are set correctly\n            with client.session_transaction() as sess:\n                self.assertTrue(sess['loggedin'])\n                self.assertEqual(sess['username'], 'testuser')\n\n    def test_register(self):\n        with self.app as client:\n            # Perform a POST request to the registration endpoint with valid form data\n            response = client.post('/pythonlogin/register', data=dict(username='newuser', password='newpassword', email='test@example.com'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure account was successfully registered\n            # You can check the database or perform a login request to verify the registration\n\n    def test_home(self):\n        with self.app as client:\n            # Perform a GET request to the home endpoint without logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the home endpoint after logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Home Page', response.data)  # expect 'Home Page' to be in the response content\n\n    def test_profile(self):\n        with self.app as client:\n            # Perform a GET request to the profile endpoint without logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the profile endpoint after logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Profile Page', response.data)  # expect 'Profile Page' to be in the response content",
+      "symbol_name": "FlaskAppTestCase",
+      "symbol_kind": "class",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 7,
+      "end_line": 9,
+      "text": "    def setUp(self):\n        self.app = app.test_client()\n        self.app.testing = True",
+      "embed_text": "Class FlaskAppTestCase | def setUp\n\n    def setUp(self):\n        self.app = app.test_client()\n        self.app.testing = True",
+      "symbol_name": "setUp",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "FlaskAppTestCase",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 11,
+      "end_line": 20,
+      "text": "    def test_login(self):\n        with self.app as client:\n            # Perform a POST request to the login endpoint with valid credentials\n            response = client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure session variables are set correctly\n            with client.session_transaction() as sess:\n                self.assertTrue(sess['loggedin'])\n                self.assertEqual(sess['username'], 'testuser')",
+      "embed_text": "Class FlaskAppTestCase | def test_login\n\n    def test_login(self):\n        with self.app as client:\n            # Perform a POST request to the login endpoint with valid credentials\n            response = client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Ensure session variables are set correctly\n            with client.session_transaction() as sess:\n                self.assertTrue(sess['loggedin'])\n                self.assertEqual(sess['username'], 'testuser')",
+      "symbol_name": "test_login",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "FlaskAppTestCase",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 22,
+      "end_line": 26,
+      "text": "    def test_register(self):\n        with self.app as client:\n            # Perform a POST request to the registration endpoint with valid form data\n            response = client.post('/pythonlogin/register', data=dict(username='newuser', password='newpassword', email='test@example.com'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response",
+      "embed_text": "Class FlaskAppTestCase | def test_register\n\n    def test_register(self):\n        with self.app as client:\n            # Perform a POST request to the registration endpoint with valid form data\n            response = client.post('/pythonlogin/register', data=dict(username='newuser', password='newpassword', email='test@example.com'))\n            self.assertEqual(response.status_code, 302)  # expect a redirect response",
+      "symbol_name": "test_register",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "FlaskAppTestCase",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 31,
+      "end_line": 43,
+      "text": "    def test_home(self):\n        with self.app as client:\n            # Perform a GET request to the home endpoint without logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the home endpoint after logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Home Page', response.data)  # expect 'Home Page' to be in the response content",
+      "embed_text": "Class FlaskAppTestCase | def test_home\n\n    def test_home(self):\n        with self.app as client:\n            # Perform a GET request to the home endpoint without logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the home endpoint after logging in\n            response = client.get('/')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Home Page', response.data)  # expect 'Home Page' to be in the response content",
+      "symbol_name": "test_home",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "FlaskAppTestCase",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "unit_test.py",
+      "start_line": 45,
+      "end_line": 57,
+      "text": "    def test_profile(self):\n        with self.app as client:\n            # Perform a GET request to the profile endpoint without logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the profile endpoint after logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Profile Page', response.data)  # expect 'Profile Page' to be in the response content",
+      "embed_text": "Class FlaskAppTestCase | def test_profile\n\n    def test_profile(self):\n        with self.app as client:\n            # Perform a GET request to the profile endpoint without logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 302)  # expect a redirect response\n\n            # Log in the user\n            client.post('/pythonlogin/', data=dict(username='testuser', password='testpassword'))\n\n            # Perform a GET request to the profile endpoint after logging in\n            response = client.get('/profile')\n            self.assertEqual(response.status_code, 200)  # expect a successful response\n            self.assertIn(b'Profile Page', response.data)  # expect 'Profile Page' to be in the response content",
+      "symbol_name": "test_profile",
+      "symbol_kind": "function",
+      "docstring": "",
+      "enclosing_class": "FlaskAppTestCase",
+      "file_imports": [
+        "unittest",
+        "main",
+        "flask"
+      ]
+    },
+    {
+      "file_path": "templates/auth/auth_layout.html",
+      "start_line": 1,
+      "end_line": 20,
+      "text": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{% block title %}{% endblock %}</title>\n    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='style.css') }}\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.7.1/css/all.css\">\n    <!-- Bootstrap CSS -->\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n</head>\n\n<body id=\"auth\">\n    {% block content %}\n    {% endblock %}\n    <!-- Bootstrap Bundle with Popper -->\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM\" crossorigin=\"anonymous\"></script>\n</body>\n\n</html>",
+      "embed_text": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{% block title %}{% endblock %}</title>\n    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='style.css') }}\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.7.1/css/all.css\">\n    <!-- Bootstrap CSS -->\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n</head>\n\n<body id=\"auth\">\n    {% block content %}\n    {% endblock %}\n    <!-- Bootstrap Bundle with Popper -->\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM\" crossorigin=\"anonymous\"></script>\n</body>\n\n</html>",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/auth/login.html",
+      "start_line": 1,
+      "end_line": 24,
+      "text": "{% extends 'auth/auth_layout.html' %}\n{% block title %} {{ title }} {% endblock %}\n{% block content%}\n<div class=\"login\">\n    {% include \"includes/alert.html\" %}\n    <h1>Login</h1>\n    <div class=\"links\">\n        <a href=\"{{ url_for('login') }}\" class=\"active\">Login</a>\n        <a href=\"{{ url_for('register') }}\">Register</a>\n    </div>\n    <form action=\"{{ url_for('login') }}\" method=\"post\">\n        <label for=\"username\">\n            <i class=\"fas fa-user\"></i>\n        </label>\n        <input type=\"text\" name=\"username\" placeholder=\"Username\" id=\"username\" required>\n        <label for=\"password\">\n            <i class=\"fas fa-lock\"></i>\n        </label>\n        <input type=\"password\" name=\"password\" placeholder=\"Password\" id=\"password\" required>\n        <div class=\"msg\">{{ msg }}</div>\n        <input type=\"submit\" value=\"Login\">\n    </form>\n</div>\n{% endblock %}",
+      "embed_text": "{% extends 'auth/auth_layout.html' %}\n{% block title %} {{ title }} {% endblock %}\n{% block content%}\n<div class=\"login\">\n    {% include \"includes/alert.html\" %}\n    <h1>Login</h1>\n    <div class=\"links\">\n        <a href=\"{{ url_for('login') }}\" class=\"active\">Login</a>\n        <a href=\"{{ url_for('register') }}\">Register</a>\n    </div>\n    <form action=\"{{ url_for('login') }}\" method=\"post\">\n        <label for=\"username\">\n            <i class=\"fas fa-user\"></i>\n        </label>\n        <input type=\"text\" name=\"username\" placeholder=\"Username\" id=\"username\" required>\n        <label for=\"password\">\n            <i class=\"fas fa-lock\"></i>\n        </label>\n        <input type=\"password\" name=\"password\" placeholder=\"Password\" id=\"password\" required>\n        <div class=\"msg\">{{ msg }}</div>\n        <input type=\"submit\" value=\"Login\">\n    </form>\n</div>\n{% endblock %}",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/auth/profile.html",
+      "start_line": 1,
+      "end_line": 24,
+      "text": "{% extends 'home/layout.html' %}\n\n{% block title %} {{ title }} {% endblock %}\n\n{% block content %}\n<h2>Profile Page</h2>\n<div>\n    <p>Your account details are below:</p>\n    <table>\n        <tr>\n            <td>Username:</td>\n            <td>{{ account['username'] }}</td>\n        </tr>\n        <tr>\n            <td>Password:</td>\n            <td>{{ account['password'] }}</td>\n        </tr>\n        <tr>\n            <td>Email:</td>\n            <td>{{ account['email'] }}</td>\n        </tr>\n    </table>\n</div>\n{% endblock %}",
+      "embed_text": "{% extends 'home/layout.html' %}\n\n{% block title %} {{ title }} {% endblock %}\n\n{% block content %}\n<h2>Profile Page</h2>\n<div>\n    <p>Your account details are below:</p>\n    <table>\n        <tr>\n            <td>Username:</td>\n            <td>{{ account['username'] }}</td>\n        </tr>\n        <tr>\n            <td>Password:</td>\n            <td>{{ account['password'] }}</td>\n        </tr>\n        <tr>\n            <td>Email:</td>\n            <td>{{ account['email'] }}</td>\n        </tr>\n    </table>\n</div>\n{% endblock %}",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/auth/register.html",
+      "start_line": 1,
+      "end_line": 29,
+      "text": "{% extends 'auth/auth_layout.html' %}\n{% block title %} {{ title }} {% endblock %}\n{% block content%}\n\n<div class=\"register\">\n\t{% include \"includes/alert.html\" %}\n    <h1>Register</h1>\n    <div class=\"links\">\n        <a href=\"{{ url_for('login') }}\">Login</a>\n        <a href=\"{{ url_for('register') }}\" class=\"active\">Register</a>\n    </div>\n    <form action=\"{{ url_for('register') }}\" method=\"post\" autocomplete=\"off\">\n        <label for=\"username\">\n            <i class=\"fas fa-user\"></i>\n        </label>\n        <input type=\"text\" name=\"username\" placeholder=\"Username\" id=\"username\" required>\n        <label for=\"password\">\n            <i class=\"fas fa-lock\"></i>\n        </label>\n        <input type=\"password\" name=\"password\" placeholder=\"Password\" id=\"password\" required>\n        <label for=\"email\">\n            <i class=\"fas fa-envelope\"></i>\n        </label>\n        <input type=\"email\" name=\"email\" placeholder=\"Email\" id=\"email\" required>\n        <div class=\"msg\">{{ msg }}</div>\n        <input type=\"submit\" value=\"Register\">\n    </form>\n</div>\n{% endblock %}",
+      "embed_text": "{% extends 'auth/auth_layout.html' %}\n{% block title %} {{ title }} {% endblock %}\n{% block content%}\n\n<div class=\"register\">\n\t{% include \"includes/alert.html\" %}\n    <h1>Register</h1>\n    <div class=\"links\">\n        <a href=\"{{ url_for('login') }}\">Login</a>\n        <a href=\"{{ url_for('register') }}\" class=\"active\">Register</a>\n    </div>\n    <form action=\"{{ url_for('register') }}\" method=\"post\" autocomplete=\"off\">\n        <label for=\"username\">\n            <i class=\"fas fa-user\"></i>\n        </label>\n        <input type=\"text\" name=\"username\" placeholder=\"Username\" id=\"username\" required>\n        <label for=\"password\">\n            <i class=\"fas fa-lock\"></i>\n        </label>\n        <input type=\"password\" name=\"password\" placeholder=\"Password\" id=\"password\" required>\n        <label for=\"email\">\n            <i class=\"fas fa-envelope\"></i>\n        </label>\n        <input type=\"email\" name=\"email\" placeholder=\"Email\" id=\"email\" required>\n        <div class=\"msg\">{{ msg }}</div>\n        <input type=\"submit\" value=\"Register\">\n    </form>\n</div>\n{% endblock %}",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/home/home.html",
+      "start_line": 1,
+      "end_line": 8,
+      "text": "{% extends 'home/layout.html' %}\n\n{% block title %} {{ title }} {% endblock %}\n\n{% block content %}\n<h2>Home Page</h2>\n<p>Welcome back, {{ username }}!</p>\n{% endblock %}",
+      "embed_text": "{% extends 'home/layout.html' %}\n\n{% block title %} {{ title }} {% endblock %}\n\n{% block content %}\n<h2>Home Page</h2>\n<p>Welcome back, {{ username }}!</p>\n{% endblock %}",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/home/layout.html",
+      "start_line": 1,
+      "end_line": 29,
+      "text": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{% block title %}{% endblock %}</title>\n    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='style.css') }}\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.7.1/css/all.css\">\n    <!-- Bootstrap CSS -->\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n</head>\n\n<body class=\"loggedin\">\n    <nav class=\"navtop\">\n        <div>\n            <h1>Website Title</h1>\n            <a href=\"{{ url_for('home') }}\"><i class=\"fas fa-home\"></i>Home</a>\n            <a href=\"{{ url_for('profile') }}\"><i class=\"fas fa-user-circle\"></i>Profile</a>\n            <a href=\"\"><i class=\"fas fa-sign-out-alt\"></i>Logout</a>\n        </div>\n    </nav>\n    <div class=\"content\">\n        {% block content %}{% endblock %}\n    </div>\n    <!-- Bootstrap Bundle with Popper -->\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM\" crossorigin=\"anonymous\"></script>\n</body>\n\n</html>",
+      "embed_text": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{% block title %}{% endblock %}</title>\n    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='style.css') }}\">\n    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.7.1/css/all.css\">\n    <!-- Bootstrap CSS -->\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n</head>\n\n<body class=\"loggedin\">\n    <nav class=\"navtop\">\n        <div>\n            <h1>Website Title</h1>\n            <a href=\"{{ url_for('home') }}\"><i class=\"fas fa-home\"></i>Home</a>\n            <a href=\"{{ url_for('profile') }}\"><i class=\"fas fa-user-circle\"></i>Profile</a>\n            <a href=\"\"><i class=\"fas fa-sign-out-alt\"></i>Logout</a>\n        </div>\n    </nav>\n    <div class=\"content\">\n        {% block content %}{% endblock %}\n    </div>\n    <!-- Bootstrap Bundle with Popper -->\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM\" crossorigin=\"anonymous\"></script>\n</body>\n\n</html>",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    },
+    {
+      "file_path": "templates/includes/alert.html",
+      "start_line": 1,
+      "end_line": 13,
+      "text": "{% with messages = get_flashed_messages(with_categories=true) %}\n<!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->\n{% if messages %}\n{% for category, message in messages %}\n<div class=\"container p-2\">\n<div class=\"alert alert-{{ category }} alert-dismissible fade show\" role=\"alert\">\n    {{ message }}\n    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n</div>\n</div>\n{% endfor %}\n{% endif %}\n{% endwith %}",
+      "embed_text": "{% with messages = get_flashed_messages(with_categories=true) %}\n<!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->\n{% if messages %}\n{% for category, message in messages %}\n<div class=\"container p-2\">\n<div class=\"alert alert-{{ category }} alert-dismissible fade show\" role=\"alert\">\n    {{ message }}\n    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n</div>\n</div>\n{% endfor %}\n{% endif %}\n{% endwith %}",
+      "symbol_name": "",
+      "symbol_kind": "",
+      "docstring": "",
+      "enclosing_class": "",
+      "file_imports": []
+    }
+  ]
+}
